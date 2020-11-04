@@ -1,0 +1,49 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+div.teacher {
+    border-bottom: 1px solid grey;
+    width: 80%;
+    padding: 10px 5px;
+    position: relative;
+    display: inline-block;
+}
+
+div.teacher:hover {
+    background-color: rgb(211, 206, 206);
+}
+img {
+    border-radius: 50%;
+    border: 1px solid white;
+    float: left;
+    width: 3%;
+    height: 25px;
+    margin-right: 10px;
+}
+
+div.teachers h2 {
+    color: green;
+    
+}
+
+div.teachers {
+    margin-top: 15px;
+    margin-left: 20%;
+    float: left;
+    
+}
+
+#number-student {
+    margin-right: 0px;
+}
+
+div.titles {
+    width: 80%;
+    border-bottom: 3px solid green;
+    margin-top: 20px;
+}
+
+
