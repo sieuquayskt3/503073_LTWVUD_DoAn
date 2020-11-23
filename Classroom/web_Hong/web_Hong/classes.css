@@ -1,0 +1,43 @@
+.card {
+    border-radius: 8px;
+    transition: 0.1s;
+}
+.card:hover {
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.1);
+}
+img.avt {
+    width: 75px; 
+    height: 75px; 
+    border-radius: 50%; 
+    position: relative;  
+    float: right; 
+    margin-top: -3.093rem;
+}
+.class {
+    color: white; 
+    font-size: 1.3rem;
+    font-weight: initial;
+    font-weight: 500;
+}
+.class-info {
+    color: white; 
+    font-size: 0.92rem;
+    font-weight: lighter;
+}
+.card-text {
+    color: white;
+    font-size: 0.92rem;
+    padding-top: 5px;
+}
+.card-body {
+    border-radius: 8px 8px 0 0;
+}
+a.card-tiltle {
+    color: white;
+}
+.btn-bars {
+    padding-left: 50px;
+}
+.btn-plus {
+	padding-right: 50px;
+}
