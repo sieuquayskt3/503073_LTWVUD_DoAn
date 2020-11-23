@@ -43,8 +43,7 @@ function register($user, $pass, $name, $email, $phone, $year){
 
   $hash = password_hash($pass, PASSWORD_DEFAULT);
   $rand = random_int(0, 1000);
-  $token = md5($user . '+' . $rand);
-  $Quyen = 'student';
+  $Quyen = 'Student';
 
   $sql = 'insert into account(HoTen, UserName, Email, Pass, Sdt, NamSinh, Quyen) values(?,?,?,?,?,?,?)';
   
@@ -107,4 +106,47 @@ return array('code' => 0, 'error' => 'Create account successful');
 }
 
 
+//-- Tham gia lớp học
+// Kiểm tra Mã lớp học
+function is_MaLop_exists($MaLop){
+  $sql = 'select IdLop from class where MaLop = ?';
+  $conn = open_database();
+
+  $stm = $conn->prepare($sql);
+  $stm->bind_param('s', $MaLop);
+  if (!$stm->execute()){
+      die('Query error: ' . $stm->error);
+  }
+
+  $result = $stm->get_result();
+  while ($row = $result->fetch_assoc()) {
+    $IdLop = $row['IdLop'];
+  }
+  if ($result->num_rows > 0){
+      return $IdLop; // có Mã lớp hợp lệ
+  } else {
+      return false;
+  }
+
+}
+
+function joinClass($IdAccount, $MaLop)
+{
+  $conn = open_database();
+  if(empty($_SESSION['id'])){ 
+    header('Location: Login.php');
+  }else {
+    $IdLop = is_MaLop_exists($MaLop);
+    if ($IdLop==false){
+      return array('code' => 1, 'error' => 'Mã lớp không tồn tại');
+    }
+    $stm = $conn->prepare('INSERT INTO detailclass(IdAccount, IdLop) values (?,?)');
+  }
+  
+  $stm->bind_param("ii", $IdAccount, $IdLop);
+  if (!$stm->execute()){
+    return array('code' => 2, 'error' => 'can not execute command');
+  }
+  return array('code' => 0, 'error' => 'Join class successful');
+}
 ?>
