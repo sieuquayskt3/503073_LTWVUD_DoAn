@@ -69,7 +69,7 @@ $IdAccount = $_SESSION["id"];
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card">
                         <div class="card-body" style="background-image: url('images/brownsmall.jpg');">
-                            <a class="card-tiltle">
+                            <a class="card-tiltle" href="stream.php?IdLop=<?php echo $row['IdLop'] ?>">
                                 <div class="class"><?php echo $row["TenLop"] ?></div>
                                 <div class="class-info"><?php echo $row["Phong"] . " " . $row["MoTa"] ?></div>
                             </a>
