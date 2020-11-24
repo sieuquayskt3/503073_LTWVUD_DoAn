@@ -53,6 +53,7 @@
                 $_SESSION['phone'] = $data['Sdt'];
                 $_SESSION['year'] = $data['NamSinh'];
                 $_SESSION['role'] = $data['Quyen'];
+                //die('Đăng nhập được rồi');
                 header('Location: classes.php');
                 exit();
             } else {
@@ -96,8 +97,6 @@
             
         </div>
     </div>
-
-    
 </div>
 
 </body>

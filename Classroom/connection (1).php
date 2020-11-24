@@ -43,7 +43,6 @@ function register($user, $pass, $name, $email, $phone, $year){
 
   $hash = password_hash($pass, PASSWORD_DEFAULT);
   $rand = random_int(0, 1000);
-  $token = md5($user . '+' . $rand);
   $Quyen = 'Student';
 
   $sql = 'insert into account(HoTen, UserName, Email, Pass, Sdt, NamSinh, Quyen) values(?,?,?,?,?,?,?)';
@@ -87,34 +86,27 @@ function login($user, $pass) {
     array('code' => 0, 'error' => '', 'data' => $data);
 }
 
-function CU_Class($IdAccount,$nameclass, $name, $room, $description,$linkimage)
+function createClass($IdAccount,$nameclass, $name, $room, $description,$linkimage)
 {
-  $randnum = random_int(1000, 9999);
-  $text = 'qwertyuioplkjhgfdsazxcvbnmMNBVCXZASDFGHJKLPOIUYTREWQ';
-  $randtext = str_shuffle($text);
-  $rand =substr(($randtext),0,4);
-  $codes = $rand.$randnum;
- 
+  $conn = open_database();
   if(empty($_POST['id'])){
-    $sql = 'INSERT INTO class(IdAccount, TenLop, TenGV, Phong, MoTa, AnhDaiDien,MaLop) values (?,?,?,?,?,?,?)';
-    $conn = open_database();
-    $stm = $conn->prepare($sql);
+    
+    $stm = $conn->prepare('INSERT INTO class(IdAccount, TenLop, TenGV, Phong, MoTa, AnhDaiDien) values (?,?,?,?,?,?)');
+    
   }
   else {
-    $conn = open_database();
     $id = $_POST["id"];
-    $stm = $conn->prepare("UPDATE class SET IdAccount=?, TenLop=?, TenGv=?, Phong=?, MoTa=?, AnhDaiDien=?, MaLop=? WHERE IdLop= $id");
-  
+    $stm = $conn->prepare("UPDATE class SET IdAccount=?, TenLop=?, TenGv=?, Phong=?, MoTa=?, AnhDaiDien=? WHERE IdLop= $id");
   }
-  $stm->bind_param('issssss', $IdAccount, $nameclass, $name, $room, $description,$linkimage,$codes);
-
+  $stm->bind_param("isssss", $$IdAccount, $nameclass, $name, $room, $description,$linkimage);
   if (!$stm->execute()){
     return array('code' => 2, 'error' => 'can not execute command');
   }
-  return array('code' => 0, 'error' => 'Create account successful');
+return array('code' => 0, 'error' => 'Create account successful');
 }
 
 
+//-- Tham gia lớp học
 // Kiểm tra Mã lớp học
 function is_MaLop_exists($MaLop){
   $sql = 'select IdLop from class where MaLop = ?';
@@ -137,7 +129,7 @@ function is_MaLop_exists($MaLop){
   }
 
 }
-//-- Tham gia lớp học
+
 function joinClass($IdAccount, $MaLop)
 {
   $conn = open_database();
@@ -157,5 +149,4 @@ function joinClass($IdAccount, $MaLop)
   }
   return array('code' => 0, 'error' => 'Join class successful');
 }
-
 ?>

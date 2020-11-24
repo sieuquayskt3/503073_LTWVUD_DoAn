@@ -1,18 +1,37 @@
 <?php
-
-    // Kiểm tra đăng nhập
-    // session_start();
-
-    // if (!isset($_SESSION["username"])){
-    //     header("location: login.php");
-    //     exit();
-    // }
-
-    if (isset($_POST['edit'])){
-        $newPermisstion = $_POST['permission'];
-        echo $newPermisstion;
+    session_start();
+    session_start();
+    if (!isset($_SESSION["user"])) {
+        header("location: login.php");
+        exit();
     }
+    // lấy thông tin quyền
+    $role = $_SESSION["role"];
+    if ($role != 'Admin'){
+        header('Location:classes.php');
+    }
+    // kết nối cớ sở dữ liệu
+    $conn = mysqli_connect("localhost","root","","classroom") or die ('Không thể kết nối cơ sở dữ liệu');
+    mysqli_set_charset($conn,"utf8");
 
+    // Truy vấn dữ liệu bảng account
+    $sql = "SELECT * FROM `account` WHERE 1";
+
+    $result = mysqli_query($conn, $sql) or die("Lỗi truy vấn dữ liệu" .mysqli_error($conn));
+    $data = [];// khởi tạo mạng $data
+    if( $result)// Kiểm tra kết quả $result trả về nếu rỗng thì không chạy hàm if này
+    {
+        while ($num = mysqli_fetch_assoc($result)) // đọc từng dòng dữ liệu trong object $result
+        {
+            $data[] = $num;// thêm từng dòng dữ liệu vào mảng $data
+        }
+    }
+    $permission = [
+        'Admin' => 'Quản trị viên',
+        'Teacher' => 'Giảng viên',
+        'Student' => 'Sinh viên',
+    ];
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,110 +68,38 @@
     </div>
     <hr class="m-0">
     <div class="container">
-        <div class="row font-weight-bold mt-3">
-            <div class="col-1 text-center">
-                Avatar
-            </div>
-            <div class="col-1">
-                ID
-            </div>
-            <div class="col-2">
-                Full name
-            </div>
-            <div class="col-2">
-                Day of birth
-            </div>
-            <div class="col-2">
-                Email
-            </div>
-            <div class="col-2">
-                Phone number
-            </div>
-            <div class="col-2 text-center">
-                Permission
-            </div>
-        </div>
-        <!-- Database -->
-        <!-- user 1 -->
-        <div class="row mt-3">
-            <div class="col-1 text-center">
-                <img src="https://via.placeholder.com/32x32" alt="">
-            </div>
-            <div class="col-1">
-                000001
-            </div>
-            <div class="col-2">
-                Lê Thanh Bình
-            </div>
-            <div class="col-2">
-                1/1/2000
-            </div>
-            <div class="col-2">
-                bio@gmail.com
-            </div>
-            <div class="col-2">
-                0123456789
-            </div>
-            <div class="col-2 text-center">
-                Admin | <a href="#" data-toggle="modal" data-target="#change-permission">Edit</a>
-                
-            </div>
-        </div>
-        <hr>
-        <!-- user 2 -->
-        <div class="row mt-3">
-            <div class="col-1 text-center">
-                <img src="https://via.placeholder.com/32x32" alt="">
-            </div>
-            <div class="col-1">
-                000002
-            </div>
-            <div class="col-2">
-                Lê Thanh Bình 2
-            </div>
-            <div class="col-2">
-                1/1/2001
-            </div>
-            <div class="col-2">
-                bio2@gmail.com
-            </div>
-            <div class="col-2">
-                0123456780
-            </div>
-            <div class="col-2 text-center">
-                Student | <a href="#" data-toggle="modal" data-target="#change-permission">Edit</a>
-            </div>
-        </div>
-        <hr>
-        <!-- user 3 -->
-        <div class="row mt-3">
-            <div class="col-1 text-center">
-                <img src="https://via.placeholder.com/32x32" alt="">
-            </div>
-            <div class="col-1">
-                000003
-            </div>
-            <div class="col-2">
-                Lê Thanh Bình 3
-            </div>
-            <div class="col-2">
-                1/1/2002
-            </div>
-            <div class="col-2">
-                bio3@gmail.com
-            </div>
-            <div class="col-2">
-                0123456781
-            </div>
-            <div class="col-2 text-center">
-                Teacher | <a href="#" data-toggle="modal" data-target="#change-permission">Edit</a>
-            </div>
-        </div>
-        <hr>
+        <table class="table table-bordered" style="margin-top: 30px;">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Họ tên</th>
+                    <th scope="col">Tài khoản</th>
+                    <th scope="col">Ngày sinh</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Quyền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(!empty($data)) { ?>
+                    <?php foreach($data as $item) { ?>
+                        <tr>
+                            <th scope="row"><?= $item['IdAccount'] ?></th>
+                            <td><?= $item['HoTen'] ?></td>
+                            <td><?= $item['UserName'] ?></td>
+                            <td><?= $item['NamSinh'] ?></td>
+                            <td><?= $item['Email'] ?></td>
+                            <td><?= $item['Sdt'] ?></td>
+                            <td><?= $permission[$item['Quyen']] ?> | <a href="#" IdAccount="<?= $item['IdAccount'] ?>" class="change-permission" data-toggle="modal" data-target="#change-permission">Edit</a></td>
+                        </tr>
+                    <?php } ?>
+                <?php } ?>
+            </tbody>
+        </table>
         <!-- END data demo -->
         <div class="row">
             <div class="col-12 text-right text-md">
-                <h5>Number of users: 3</h5>
+                <h5>Số lượng người dùng : <?= !empty($data) ? count($data) : 0 ?></h5>
             </div>
         </div>
         <!-- Edit permission dialog -->
@@ -160,35 +107,42 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- action = "proccessChangePermisstion.php" -->
-                    <form action="" method="POST"> 
+                    <form action="update_permission.php" method="POST"> 
                         <div class="modal-header">
-                            <h4 class="modal-title">Change permission</h4>
+                            <h4 class="modal-title">Thay đổi quyền</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
+                            </div>
                 
-                        <div class="modal-body">
-                            <p>Choose the <strong>permission</strong> you want to change</p>
-                            <div class="text-center">
-                                <select class="btn btn-light border border-dark" name="permission" id="permission">
-                                    <option value="admin">Admin</option>
-                                    <option value="teacher">Teacher</option>
-                                    <option value="student">Student</option>
-                                </select>
-                            </div>  
+                            <div class="modal-body">
+                                <p>Chọn <strong>quyền</strong> bạn muốn thay đổi</p>
+                                <div class="text-center">
+                                    <select class="btn btn-light border border-dark" name="quyen" id="permission">
+                                        <?php foreach($permission as $key =>  $pre) : ?>
+                                            <option value="<?= $key ?>"><?= $pre ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <input type="hidden" name="IdAccount" class="IdAccount">
+                                </div>
+                            </div>
+    
+                            <div class="modal-footer">
+                                <input type="hidden" name="edit" value="permission">
+                                <button type="submit" class="btn btn-danger">Lưu</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
+                            </div>            
                         </div>
-                        
-                        <div class="modal-footer">
-                            <input type="hidden" name="edit" value="permission">
-                            <button type="submit" class="btn btn-danger">Lưu</button>
-
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
-                        </div>            
-                        
                     </form>
                 </div>
             </div>
-        </div>
         <!-- END database -->
     </div>
 </body>
+<script>
+    $(function(){
+        $('.change-permission').click(function() {
+            let id = $(this).attr('IdAccount');
+            $('.IdAccount').val(id)
+        })
+    })
+</script>
 </html>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+$id = "";
 if (!isset($_SESSION["user"])) { // Yêu cầu đăng nhập
   header("location: login.php");
   exit();
@@ -64,14 +65,13 @@ $IdAccount = $_SESSION["id"]; // id người dùng
       $row = $result->fetch_assoc();
       $name = $row["HoTen"]; // tên giáo viên
 
-
       $error = "";
       $nameclass = ""; // ten lop hoc
       $room = ""; // phong hoc
       $description = ""; // mo ta
       $avt = ""; // anh dai dien
       $file = ""; // loai hinh anh jpg/png/...
-      
+
 
       if (isset($_POST['nameclass']) && isset($_POST['room']) && isset($_POST['description']) && isset($_FILES['image'])) {
         $nameclass = $_POST['nameclass'];
@@ -97,7 +97,7 @@ $IdAccount = $_SESSION["id"]; // id người dùng
         }
          else {
           // register a new account
-          $result1 = createClass($IdAccount, $nameclass, $name, $room, $description, $linkimage);
+          $result1 = CU_class($IdAccount, $nameclass, $name, $room, $description, $linkimage);
           if ($result1['code'] == 0) {
             // successful
             header('Location: login.php');

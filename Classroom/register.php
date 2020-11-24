@@ -2,7 +2,7 @@
     session_start();
     
     if (isset($_SESSION['user'])) {
-        header('Location: index.php');
+        header('Location: index.php');// ko có file index
         exit();
     }
 
@@ -45,6 +45,7 @@
 
         if (empty($name)) {
             $error = 'Vui lòng nhập họ và tên';
+            
         }
         else if (empty($email)) {
             $error = 'Vui lòng nhập email';

@@ -25,11 +25,11 @@ $IdAccount = $_SESSION["id"];
     <script src="https://kit.fontawesome.com/f25bf5c13c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="classes.css">
-    <link rel="stylesheet" href="classes.js">
+
 </head>
 
 <body>
@@ -45,7 +45,11 @@ $IdAccount = $_SESSION["id"];
             <div class="btn-plus">
                 <?php
                 if ($role == "Admin" || $role == "Teacher") {
-                    echo '<a class="btn btn-outline-dark" href="taolophoc.php"">Tạo</a>';
+                    echo '<a class="btn btn-outline-dark mr-1" href="taolophoc.php">Tạo</a>';
+                    if($role == "Admin"){
+                        echo '<a class="btn btn-outline-dark" href="Permission.php">Phân quyền</a>';
+                    }
+                  
                 }
                 ?>
                 <a class="btn btn-outline-dark" href="JoinClass.php">Tham gia</a>
@@ -77,7 +81,7 @@ $IdAccount = $_SESSION["id"];
                         <div>
                             <a href="taolophoc.php?id=<?php echo $row['IdLop'] ?>" class="badge badge-info">Sửa</a>
                             <a href="#" class="badge btn btn-danger" data-toggle="modal" data-target="#myModal">Xóa</a>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -98,13 +102,13 @@ $IdAccount = $_SESSION["id"];
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                   <h4 class="text-center text-warning">Bạn có chắc chắn muốn xóa lớp học này không ?</h4> 
+                    <h4 class="text-center text-warning">Bạn có chắc chắn muốn xóa lớp học này không ?</h4>
                 </div>
                 <div class="modal-footer">
                     <?php
-                        $sql = "SELECT * FROM class";
-                        $result = $conn->query($sql);
-                        $row = $result->fetch_assoc();
+                    $sql = "SELECT * FROM class";
+                    $result = $conn->query($sql);
+                    $row = $result->fetch_assoc();
                     ?>
                     <a href="#" class="badge btn btn-secondary" data-dismiss="modal">Hủy</a>
                     <a href="delete.php?id=<?php echo $row['IdLop'] ?>" class="badge btn btn-danger">Xóa</a>

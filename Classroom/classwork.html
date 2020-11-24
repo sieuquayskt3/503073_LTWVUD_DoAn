@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classwork</title>
-  <link rel="stylesheet" href="css/classwork.css">
+  
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -18,6 +18,11 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    #baitap{
+    
+    }
+  </style>
 </head>
 
 <body>
@@ -44,59 +49,61 @@
       </ul>
     </div>
   </nav>
-  <hr>
-  <div class="teachers container">
-    <div class="title">
-      <h2>Đồ án, tiểu luận</h2>
-    </div>
-    <hr>
-
-  <div class="container" id="accordion">
-    
-    <div class="card">
-      <div class="card-header" id="headingTwo">
-          <button class="btn collapsed block" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-            aria-controls="collapseTwo">
-            <img class="avt" src="image/avt1.jpg" alt="">
-            <p class="title-classwork">Nguyễn Thị Huyền Trang</p>
-          </button>
-          
-      </div>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-        <div class="card-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
-          officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-          moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
-          keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-          butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably
-          haven't heard of them accusamus labore sustainable VHS.
-        </div>
+  <div class="row container-fluid">
+    <div class="col-xl-9">
+      <div  class="Tittle">
+        <h3  style="color: blue; padding-right: 10px;">Đề + Link Nộp</h3>
+        <p class="namegv" style="float:left;">Huy Huy</p>
+        <b class="time" style="float:right;">Due Nov 13, 5:59 PM</b>
+        <br>
+        <hr style="background-color: blue;"">
       </div>
     </div>
-    <div class="card" >
-      <div class="card-header" id="headingTwo">
-        <h5 class="mb-0">
-          <button class="btn collapsed block" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-            aria-controls="collapseTwo">
-            <img class="avt" src="image/avt2.jpg" alt="">
-            <p class="title-classwork">Nguyễn Trang</p>
-          </button>
-        </h5>
+    <div class="col-xl-3">
+      <div id="baitap" class="card text-left text-truncate mx-auto p-1">
+        <h5>Bài tập của bạn</h5>
+        <input style="padding: 5px; border-radius: 10px;" type="file"placeholder="Thêm tiệp đính kèm">
+        <button>Nộp</button>
       </div>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-        <div class="card-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
-          officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-          moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim
-          keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-          butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably
-          haven't heard of them accusamus labore sustainable VHS.
-        </div>
-      </div>
-    </div>
     </div>
   </div>
+  
+  <div class="container-fluid">
+    <div class="row">
+        <div class="mb-9 col-xl-9 col-lg-9 col-md-9 col-sm-9 p-3">
+            <div class="card text-left text-truncate mx-auto p-1">
+                <!--In các bình luận-->
+                <p><b>Bình Luận</b></p>
+                    
 
+                <!--Nhập bình luận-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="mb-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 p-2">
+                            <form method="post" action="" enctype="multipart/form-data">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="mb-10 col-xl-11 col-lg-11 col-md-10 col-sm-9 pt-2">
+
+                                            <div class="card text-left text-truncate mx-auto">
+                                                <input type="text" placeholder="Nhập bình luận" id="binhluan" name="binhluan">
+                                            </div>
+                                        </div>
+                                        <div class="pt-2 w-5">
+                                            <div class="card text-left text-truncate mx-auto">
+                                                <button type="submit">Gửi</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
