@@ -9,6 +9,8 @@ require_once('connection.php');
 // lấy thông tin
 $IdAccount = $_SESSION["id"]; // id người dùng
 $IdLop = $_GET["IdLop"]; // id lớp
+$quyen = $_SESSION["role"]; // quyền người dùng
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -219,8 +221,11 @@ $IdLop = $_GET["IdLop"]; // id lớp
                       <div><?php echo $row2["NoiDung"] ?></div>
                   </div>
                   <div class="col-2 text-right">
-                      <a href="#" class="badge badge-info">Sửa</a>
-                      <a href="#" class="badge btn btn-danger" data-toggle="modal" data-target="#CommentModal-del">Xóa</a>
+                    <?php
+                      if ($quyen == "Admin" || $quyen == "Teacher"){
+                          echo '<a href="#" class="badge btn btn-danger" data-toggle="modal" data-target="#CommentModal-del">Xóa</a>';
+                      }
+                    ?>
                   </div>
               </div>
         <?php
