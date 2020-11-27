@@ -137,7 +137,8 @@ function is_MaLop_exists($MaLop){
   }
 
 }
-//-- Tham gia lớp học
+
+// Tham gia lớp học
 function joinClass($IdAccount, $MaLop)
 {
   $conn = open_database();
@@ -157,6 +158,7 @@ function joinClass($IdAccount, $MaLop)
   }
   return array('code' => 0, 'error' => 'Join class successful');
 }
+
 function createPost($IdAccount,$IdLop,$content,$target_file,$datecreate){
   $sql = 'INSERT INTO post(IdAccount, IdLop, NoiDung, File, NgayTao) values (?,?,?,?,?)';
   $conn = open_database();
@@ -166,5 +168,17 @@ function createPost($IdAccount,$IdLop,$content,$target_file,$datecreate){
     return array('code' => 2, 'error' => 'can not execute command');
   }
   return array('code' => 0, 'error' => 'Create account successful');
+}
+
+// create comment
+function createComment($IdAccount, $idPost, $comment, $datecreate){
+  $sql = 'INSERT INTO comment(IdAccount, IdPost, NoiDung, NgayTao) values (?,?,?,?)';
+  $conn = open_database();
+  $stm = $conn->prepare($sql);
+  $stm->bind_param('iiss', $IdAccount, $idPost, $comment, $datecreate);
+  if (!$stm->execute()){
+    return array('code' => 2, 'error' => 'can not execute command');
+  }
+  return array('code' => 0, 'success' => 'Create comment successful');
 }
 ?>

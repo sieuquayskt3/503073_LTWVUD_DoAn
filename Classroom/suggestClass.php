@@ -49,7 +49,7 @@
 
     // tìm xem khớp classes ở vị trí nào thì chèn vào $filter + chèn luôn id ở vị trí đó vào $id
     for($i = 0; $i < count($classes); ++$i) {
-        if (preg_match("/$keyword/", strtolower($enClass[$i]))){ // regular expression
+        if (preg_match("/$keyword/", strtolower($enClass[$i])) or preg_match("/$keyword/", strtolower($classes[$i]))){ // regular expression
             array_push($filter, $classes[$i]);
             array_push($id, $idClasses[$i]);
         }
