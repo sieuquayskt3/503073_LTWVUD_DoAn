@@ -49,8 +49,8 @@ $quyen = $_SESSION["role"]; // quyền người dùng
 
 <body>
 
-    <?php
 
+    <?php
 
   // Lấy ngày tạo bài đăng hoặc ngày tạo comment
   $date = getdate();
@@ -82,6 +82,9 @@ $quyen = $_SESSION["role"]; // quyền người dùng
       $result = createPost($IdAccount, $IdLop, $content, $target_file, $datecreate);
       if ($result1['code'] == 0) {
         // successful
+        if ($quyen == "Admin" || $quyen == "Teacher"){
+          sendMailNotify($IdLop, 'Bạn có 1 thông báo mới: '.$content);
+        }
         header('Location: stream.php?IdLop=' . $IdLop);
         exit();
       } else if ($result1['code'] == 2) {
@@ -258,7 +261,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
       $sql = "SELECT * FROM post";
       $result = $conn->query($sql);
       if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
     ?>
       <div class="account">
         <div class="row">
