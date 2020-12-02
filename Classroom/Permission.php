@@ -35,66 +35,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classroom</title>
     
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <scrip src="https://kit.fontawesome.com/f25bf5c13c.js" crossorigin="anonymous"></scrip>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="header m-2 mr-5 col-form-label-lg">
-        <div class="row">
-            <div class="col-12 d-flex mx-3 d-flex d-row">
-                <!-- <php include 'menu.php' ?>; -->
-                <div class="dropdown">
-                    <button class="p-1 btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="https://via.placeholder.com/24x24" alt="">
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
-                <!-- END menu demo -->
-                <div class="ml-3">Phân quyền người dùng</div>
-                <div class="ml-auto"><img src="https://via.placeholder.com/24x24" alt=""></div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+            <a class="btn-bars" href="classes.php">
+                <button class="w3-button w3-xlarge w3-circle w3-light">
+                    <i class="fas fa-home"></i>
+                </button>
+            </a>
+            <a class="navbar-brand">Phân quyền người dùng</a>
+            <div class="btn-plus">
+                <a class="btn btn-outline-dark" href="logout.php">Đăng xuất</a>
             </div>
         </div>
-    </div>
-    <hr class="m-0">
+    </nav>
+
     <div class="container">
-        <table class="table table-bordered" style="margin-top: 30px;">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Họ tên</th>
-                    <th scope="col">Tài khoản</th>
-                    <th scope="col">Ngày sinh</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Số điện thoại</th>
-                    <th scope="col">Quyền</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if(!empty($data)) { ?>
-                    <?php foreach($data as $item) { ?>
+      
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered" style="margin-top: 30px;">
+                    <thead>
                         <tr>
-                            <th scope="row"><?= $item['IdAccount'] ?></th>
-                            <td><?= $item['HoTen'] ?></td>
-                            <td><?= $item['UserName'] ?></td>
-                            <td><?= $item['NamSinh'] ?></td>
-                            <td><?= $item['Email'] ?></td>
-                            <td><?= $item['Sdt'] ?></td>
-                            <td><?= $permission[$item['Quyen']] ?> | <a href="#" IdAccount="<?= $item['IdAccount'] ?>" class="change-permission" data-toggle="modal" data-target="#change-permission">Edit</a></td>
+                            <th scope="col">ID</th>
+                            <th scope="col">Họ tên</th>
+                            <th scope="col">Tài khoản</th>
+                            <th scope="col">Ngày sinh</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Số điện thoại</th>
+                            <th scope="col">Quyền</th>
                         </tr>
-                    <?php } ?>
-                <?php } ?>
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        <?php if(!empty($data)) { ?>
+                            <?php foreach($data as $item) { ?>
+                                <tr>
+                                    <th scope="row"><?= $item['IdAccount'] ?></th>
+                                    <td><?= $item['HoTen'] ?></td>
+                                    <td><?= $item['UserName'] ?></td>
+                                    <td><?= $item['NamSinh'] ?></td>
+                                    <td><?= $item['Email'] ?></td>
+                                    <td><?= $item['Sdt'] ?></td>
+                                    <td><?= $permission[$item['Quyen']] ?> | <a href="#" IdAccount="<?= $item['IdAccount'] ?>" class="change-permission" data-toggle="modal" data-target="#change-permission">Edit</a></td>
+                                </tr>
+                            <?php } ?>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
         <!-- END data demo -->
         <div class="row">
             <div class="col-12 text-right text-md">

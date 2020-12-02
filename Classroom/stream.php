@@ -127,11 +127,44 @@ $quyen = $_SESSION["role"]; // quyền người dùng
         $result = deleteComment($idCommentToDel);
         if ($result['code'] == 0) {
             // successful
+            echo '
+            <div class="alert alert-danger" role="alert">
+              <strong>Đã xóa bình luận!</strong>
+            </div>';
         } else if ($result['code'] == 2) {
             $error = "Không thể xóa bình luận";
         } else {
             $error = "Đã xảy ra lỗi vui lòng thử lại";
         }
+      }
+
+      // confirm add student dialog
+      if ($action == 'add-student' 
+      && isset($_GET['IdLop'])&& isset($_POST['input-add-student'])){
+        $emailToAddStudent = $_POST['input-add-student'];
+        // kiểm tra định dạng email
+        $email = $_POST['input-add-student'];
+        $idClass = $_GET["IdLop"];
+        if (empty($email)) {
+          $post_error = 'Chưa nhập email!';
+        }
+        else if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+          $post_error = 'Email sai định dạng!';
+        } else {
+          $result = sendMailAddStudent($emailToAddStudent, $idClass);
+          if ($result['code'] == 0) {
+              // successful
+              echo '
+              <div class="alert alert-success" role="alert">
+                <strong>Mời thành công!</strong>
+              </div>';
+          } else if ($result['code'] == 2) {
+              $error = "Không thể xóa bình luận";
+          } else {
+              $error = "Đã xảy ra lỗi vui lòng thử lại";
+          }
+        }
+       
       }
   }
 
@@ -324,6 +357,8 @@ $quyen = $_SESSION["role"]; // quyền người dùng
               </div>
             </form>
           </div>
+          <!---------------------- Thêm sinh viên -->
+          <i class="btn btn-light" data-toggle="modal" data-target="#AddStudentModal-del">Thêm sinh viên</i>
         </div>
 
       </div> <!-- END class account-->
@@ -378,6 +413,31 @@ $quyen = $_SESSION["role"]; // quyền người dùng
                   <input type="hidden" name="id-comment" value="idComment" id="idComment-to-delete-input">
                   <button type="submit" class="btn btn-danger">Xóa</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                </div>
+            </div>
+          </form>
+        </div>
+    </div>
+
+    <!-- Chỗ này code model add student-->
+    <div class="modal fade" id="AddStudentModal-del">
+        <div class="modal-dialog">
+          <form method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h7 class="modal-title"><b>Thêm học viên</b></h7>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body text-center">
+                  <div>Nhập email học viên</div>
+                  <input class="form-control w-100 mr-3 mt-2" rows="1" name="input-add-student" placeholder="student@gmail.com" require></input>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <input type="hidden" name="action" value="add-student">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                  <button type="submit" class="btn btn-success">Gửi</button>
                 </div>
             </div>
           </form>
