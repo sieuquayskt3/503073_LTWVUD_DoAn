@@ -34,17 +34,32 @@ $quyen = $_SESSION["role"]; // quyền người dùng
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+         function updateDeleteCommentDialog(idComment){
+            let param = $('#idComment-to-delete-input');
+            param.val(idComment);
+         }
+         function updateDeletePostDialog(idPost){
+            let param = $('#idPost-to-delete-input');
+            param.val(idPost);
+         }
+      </script>
 </head>
 
 <body>
+
     <?php
+
+
   // Lấy ngày tạo bài đăng hoặc ngày tạo comment
   $date = getdate();
   $datecreate = $date['mday'] . '/' . $date['mon'] . '/' . $date['year'];
   $error = "";
   $content = "";
   $myfile = ""; // nội dung bài post
-  $idCommentToDel = '';
+  $idCommentToDel = "";
+  $idPostToDel = "";
 
 
   if (isset($_POST['content'])) {
@@ -86,6 +101,37 @@ $quyen = $_SESSION["role"]; // quyền người dùng
     $row = $result->fetch_assoc();
     $content = $row["NoiDung"];
     $file = $row["File"];
+  }
+
+  if (isset($_POST['action'])){
+    $action = $_POST['action'];
+    // confirm delete post dialog
+    if ($action == 'delete-post' 
+      && isset($_GET['IdLop'])&& isset($_POST['id-post'])){
+        $idPostToDel = $_POST['id-post'];
+        $result = deletePost($idPostToDel);
+        if ($result['code'] == 0) {
+            // successful
+        } else if ($result['code'] == 2) {
+            $error = "Không thể xóa bình luận";
+        } else {
+            $error = "Đã xảy ra lỗi vui lòng thử lại";
+        }
+      }
+
+    // confirm delete comment dialog
+    if ($action == 'delete-comment' 
+      && isset($_GET['IdLop'])&& isset($_POST['id-comment'])){
+        $idCommentToDel = $_POST['id-comment'];
+        $result = deleteComment($idCommentToDel);
+        if ($result['code'] == 0) {
+            // successful
+        } else if ($result['code'] == 2) {
+            $error = "Không thể xóa bình luận";
+        } else {
+            $error = "Đã xảy ra lỗi vui lòng thử lại";
+        }
+      }
   }
 
   ?>
@@ -182,7 +228,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
           
           <div class="col-2 text-right">
               <a href="#" class="badge badge-info">Sửa</a>
-              <a href="#" class="badge btn btn-danger" data-toggle="modal" data-target="#myModal-del">Xóa</a>
+              <i onclick="updateDeletePostDialog(<?php echo$row['IdPost']?>)" class="badge btn btn-danger" data-toggle="modal" data-target="#PostModal-del">Xóa</i>
           </div>
         </div>
 
@@ -225,7 +271,8 @@ $quyen = $_SESSION["role"]; // quyền người dùng
                   <div class="col-2 text-right">
                     <?php
                       if ($quyen == "Admin" || $quyen == "Teacher"){
-                        echo '<a href="#" class="badge btn btn-danger" data-toggle="modal" data-target="#CommentModal-del">Xóa</a>';
+                        
+                        echo '<i onclick="updateDeleteCommentDialog('.$row2['IdComment'].')" class="badge btn btn-danger" data-toggle="modal" data-target="#CommentModal-del">Xóa</i>';
                       }
                     ?>
                   </div>
@@ -260,47 +307,51 @@ $quyen = $_SESSION["role"]; // quyền người dùng
     </div>
     </div>
     <!-- Chỗ này code model-->
-    <div class="modal fade" id="myModal-del">
+    <div class="modal fade" id="PostModal-del">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h7 class="modal-title"><b>Xóa bài đăng?</b></h7>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body text-center">Nhận xét cũng sẽ bị xóa</div>
+          <form method="post">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h7 class="modal-title"><b>Xóa bài đăng?</b></h7>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="modal-body text-center">Bình luận cũng sẽ bị xóa!</div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <?php
-          $sql = "SELECT * FROM post";
-          $result = $conn->query($sql);
-          $row = $result->fetch_assoc();
-          ?>
-                    <button type="reset" class="btn btn-primary" data-dismiss="modal">Hủy</button>
-                    <a href="delete-post.php?id=<?php echo $row['IdPost'] ?>" class="btn btn-danger">Xóa</a>
-                </div>
-            </div>
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                      <input type="hidden" name="action" value="delete-post">
+                      <input type="hidden" name="id-post" value="idPost" id="idPost-to-delete-input">
+                      <button type="submit" class="btn btn-danger">Xóa</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                  </div>
+              </div>
+            </form>
         </div>
+        
     </div>
 
     <!-- Chỗ này code model delete comment-->
     <div class="modal fade" id="CommentModal-del">
         <div class="modal-dialog">
+          <form method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h7 class="modal-title"><b>Xóa bình luận</b></h7>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
-                <div class="modal-body text-center">Xóa muốn xóa bình luận này?</div>
+                <div class="modal-body text-center">Bạn muốn xóa bình luận này?</div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-primary" data-dismiss="modal">Hủy</button>
-                    <a href="deleteComment.php?idComment=9?>&idClass=<?php echo $_GET["IdLop"]?>" class="btn btn-danger">Xóa</a> <!-- truyền id kiểu gì -->
+                  <input type="hidden" name="action" value="delete-comment">
+                  <input type="hidden" name="id-comment" value="idComment" id="idComment-to-delete-input">
+                  <button type="submit" class="btn btn-danger">Xóa</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
                 </div>
             </div>
+          </form>
         </div>
     </div>
 </body>

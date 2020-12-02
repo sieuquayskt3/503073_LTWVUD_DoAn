@@ -170,6 +170,18 @@ function createPost($IdAccount,$IdLop,$content,$target_file,$datecreate){
   return array('code' => 0, 'error' => 'Create account successful');
 }
 
+//delete post
+function deletePost($idPost){
+  $sql = "DELETE FROM post WHERE IdPost = ?";
+  $conn = open_database();
+  $stm = $conn->prepare($sql);
+  $stm->bind_param('i', $idPost);
+  if (!$stm->execute()){
+    return array('code' => 2, 'error' => 'can not execute command');
+  }
+  return array('code' => 0, 'success' => 'Create comment successful');
+}
+
 // create comment
 function createComment($IdAccount, $idPost, $comment, $datecreate){
   $sql = 'INSERT INTO comment(IdAccount, IdPost, NoiDung, NgayTao) values (?,?,?,?)';

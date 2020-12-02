@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2020 at 04:06 AM
+-- Generation Time: Dec 02, 2020 at 04:47 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -41,6 +41,13 @@ CREATE TABLE `account` (
   `Quyen` char(12) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `account`
+--
+
+INSERT INTO `account` (`IdAccount`, `HoTen`, `UserName`, `Email`, `Pass`, `Sdt`, `NamSinh`, `Quyen`) VALUES
+(10, 'Quản Lí', 'admin', 'sieuquayskt3@gmail.com', '$2y$10$xFjSd/QYsk258f0nOjwkQO8RVbqmqV8GHdN6gj/p6/NGEDrXFUC5.', '0123123123', '2000', 'Admin');
+
 -- --------------------------------------------------------
 
 --
@@ -53,7 +60,7 @@ CREATE TABLE `assignment` (
   `IdLop` int(10) NOT NULL,
   `TieuDe` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `NoiDung` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
-  `Deadline` date NOT NULL
+  `Deadline` varchar(12) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -87,7 +94,7 @@ CREATE TABLE `comment` (
   `IdPost` int(10) NOT NULL,
   `NoiDung` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
   `File` char(255) COLLATE utf8_unicode_ci NOT NULL,
-  `NgayTao` date NOT NULL
+  `NgayTao` varchar(12) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -115,7 +122,7 @@ CREATE TABLE `post` (
   `IdLop` int(10) NOT NULL,
   `NoiDung` varchar(1024) CHARACTER SET utf32 COLLATE utf32_unicode_ci NOT NULL,
   `File` char(255) COLLATE utf8_unicode_ci NOT NULL,
-  `NgayTao` date NOT NULL
+  `NgayTao` varchar(12) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -173,7 +180,7 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `IdAccount` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `IdAccount` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `assignment`
@@ -185,19 +192,19 @@ ALTER TABLE `assignment`
 -- AUTO_INCREMENT for table `class`
 --
 ALTER TABLE `class`
-  MODIFY `IdLop` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `IdLop` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `IdComment` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdComment` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `IdPost` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdPost` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
