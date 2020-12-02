@@ -181,4 +181,16 @@ function createComment($IdAccount, $idPost, $comment, $datecreate){
   }
   return array('code' => 0, 'success' => 'Create comment successful');
 }
+
+//delete comment
+function deleteComment($idComment){
+  $sql = "DELETE FROM comment WHERE IdComment = ?";
+  $conn = open_database();
+  $stm = $conn->prepare($sql);
+  $stm->bind_param('i', $idComment);
+  if (!$stm->execute()){
+    return array('code' => 2, 'error' => 'can not execute command');
+  }
+  return array('code' => 0, 'success' => 'Create comment successful');
+}
 ?>

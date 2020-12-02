@@ -11,6 +11,7 @@ $IdAccount = $_SESSION["id"]; // id người dùng
 $IdLop = $_GET["IdLop"]; // id lớp
 $quyen = $_SESSION["role"]; // quyền người dùng
 
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -43,6 +44,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
   $error = "";
   $content = "";
   $myfile = ""; // nội dung bài post
+  $idCommentToDel = '';
 
 
   if (isset($_POST['content'])) {
@@ -212,7 +214,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
                             while ($row3 = $result3->fetch_assoc()) {
                         ?>
                               <div><?php echo $row3["HoTen"]?> <small><?php echo $row2["NgayTao"]?></small> </div>
-                        <?php 
+                        <?php
                             }
                           } 
                         ?>
@@ -223,7 +225,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
                   <div class="col-2 text-right">
                     <?php
                       if ($quyen == "Admin" || $quyen == "Teacher"){
-                          echo '<a href="#" class="badge btn btn-danger" data-toggle="modal" data-target="#CommentModal-del">Xóa</a>';
+                        echo '<a href="#" class="badge btn btn-danger" data-toggle="modal" data-target="#CommentModal-del">Xóa</a>';
                       }
                     ?>
                   </div>
@@ -295,13 +297,8 @@ $quyen = $_SESSION["role"]; // quyền người dùng
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <?php
-          $sql = "SELECT * FROM post";
-          $result = $conn->query($sql);
-          $row = $result->fetch_assoc();
-          ?>
                     <button type="reset" class="btn btn-primary" data-dismiss="modal">Hủy</button>
-                    <a href="delete-post.php?id=<?php echo $row['IdPost'] ?>" class="btn btn-danger">Xóa</a>
+                    <a href="deleteComment.php?idComment=9?>&idClass=<?php echo $_GET["IdLop"]?>" class="btn btn-danger">Xóa</a> <!-- truyền id kiểu gì -->
                 </div>
             </div>
         </div>
