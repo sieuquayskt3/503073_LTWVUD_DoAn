@@ -105,6 +105,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
 
   if (isset($_POST['action'])){
     $action = $_POST['action'];
+    
     // confirm delete post dialog
     if ($action == 'delete-post' 
       && isset($_GET['IdLop'])&& isset($_POST['id-post'])){
@@ -168,8 +169,22 @@ $quyen = $_SESSION["role"]; // quyền người dùng
 
     <div class="container">
         <div class="bgd-img-top" style="background-image: url('images/brown.jpg');">
-            <div class="class">Lập trình web và ứng dụng</div>
-            <div class="class-info">Đặng Minh Thắng-Thu2-Ca3</div>
+            <!-- Thông tin lớp học -->
+            <?php
+              $connClass = open_database();
+              $sqlClass = 'SELECT * FROM class WHERE IdLop ='. $_GET["IdLop"];
+              $resultClass = $connClass->query($sqlClass);
+              if ($resultClass->num_rows > 0) {
+                while ($rowClass = $resultClass->fetch_assoc()) {
+                  echo '<div class="class">'.$rowClass['TenLop'].'</div>';
+                  
+                  echo '<div class="class-info">'.$rowClass['TenGv'].' - '.$rowClass['MoTa'].'</div>';
+
+                  
+                  echo '<div class="text-white">&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mã lớp: '.$rowClass['MaLop'].'</div>';
+                }
+              }
+            ?>
         </div>
 
         <div class="account bg-light text-muted">
@@ -206,7 +221,6 @@ $quyen = $_SESSION["role"]; // quyền người dùng
         </div>
 
     <?php
-      require_once 'connection.php';
       $conn = open_database();
       $sql = "SELECT * FROM post";
       $result = $conn->query($sql);
@@ -221,14 +235,29 @@ $quyen = $_SESSION["role"]; // quyền người dùng
 
           <div class="col-9">
             <div class="name-gv">
-              <dt>Đặng Minh Thắng</dt>
+              <!-- Lấy tên giảng viên -->
+              <?php
+                  $connGv = open_database();
+                  $sqlGv = 'SELECT * FROM account WHERE IdAccount ='. $row["IdAccount"];
+                  $resultGv = $connGv->query($sqlGv);
+                  if ($resultGv->num_rows > 0) {
+                    while ($rowGv = $resultGv->fetch_assoc()) {
+                      echo '<dt>'.$rowGv['HoTen'].'</dt>';
+                    }
+                  }
+              ?>
+              
             </div>
             <div class="date"><small><?php echo $row["NgayTao"] ?></small></div>
           </div>
           
           <div class="col-2 text-right">
-              <a href="#" class="badge badge-info">Sửa</a>
-              <i onclick="updateDeletePostDialog(<?php echo$row['IdPost']?>)" class="badge btn btn-danger" data-toggle="modal" data-target="#PostModal-del">Xóa</i>
+            <?php
+              if ($quyen == "Admin" || $quyen == "Teacher"){
+                echo '<a href="#" class="badge badge-info">Sửa</a>';
+                echo '<i onclick="updateDeletePostDialog('.$row['IdPost'].')" class="badge btn btn-danger" data-toggle="modal" data-target="#PostModal-del">Xóa</i>';
+              }
+            ?>
           </div>
         </div>
 
