@@ -97,7 +97,9 @@ $IdAccount = $_SESSION["id"]; // id người dùng
           $result1 = CU_class($IdAccount, $nameclass, $name, $room, $description, $linkimage);
           if ($result1['code'] == 0) {
             // successful
+            
             header('Location: login.php');
+
             exit();
           } else if ($result1['code'] == 2) {
             $error = "Không thể thêm lớp học";

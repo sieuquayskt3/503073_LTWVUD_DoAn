@@ -144,15 +144,11 @@ function is_MaLop_exists($MaLop){
 function joinClass($IdAccount, $MaLop)
 {
   $conn = open_database();
-  if(empty($_SESSION['id'])){ 
-    header('Location: Login.php');
-  }else {
-    $IdLop = is_MaLop_exists($MaLop);
-    if ($IdLop==false){
-      return array('code' => 1, 'error' => 'Mã lớp không tồn tại');
-    }
-    $stm = $conn->prepare('INSERT INTO detailclass(IdAccount, IdLop) values (?,?)');
+  $IdLop = is_MaLop_exists($MaLop);
+  if ($IdLop==false){
+    return array('code' => 1, 'error' => 'Mã lớp không tồn tại');
   }
+  $stm = $conn->prepare('INSERT INTO detailclass(IdAccount, IdLop) values (?,?)');
   
   $stm->bind_param("ii", $IdAccount, $IdLop);
   if (!$stm->execute()){
@@ -207,16 +203,17 @@ function deleteComment($idComment){
   }
   return array('code' => 0, 'success' => 'Create comment successful');
 }
-function sendMailNotify($idClass, $content){
 
-  $allEmail = getAllMail($idClass);
-  foreach($allEmail as $email){
+// add student
+function sendMailAddStudent($email, $idClass){
+
+
     // Load Composer's autoloader
     require 'vendor/autoload.php';
-  
+
     // Instantiation and passing `true` enables exceptions
     $mail = new PHPMailer();
-  
+
     try {
         //Server settings
         //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
@@ -229,17 +226,78 @@ function sendMailNotify($idClass, $content){
         $mail->SMTPSecure = 'tls';    
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
         $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-  
+
         //Recipients
         $mail->setFrom('sieuquayskt4@gmail.com', 'Admin Web');
         $mail->addAddress($email, 'Người nhận');
-  
+
+        // Content
+        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->Subject = 'Thư mời tham gia lớp học';
+        $mail->Body    = "Click <a href='http://localhost/addStudentByEmail.php?email=$email&idClass=$idClass'> vào đây </a> để tham gia lớp học";
+        $mail->AltBody = 'Lỗi không xác định';
+
+        $mail->send();
+        
+        return array('code' => 0, 'success' => 'Gửi mail thành công');
+    } catch (Exception $e) {
+      return array('code' => 1, 'error' => 'Không thể gửi mail');
+    }
+}
+// gửi mail cho tất cả sinh viên
+function getAllMail($idClass){
+  $allEmail = array();
+  $conn = open_database();
+  $sql = 'SELECT IdAccount FROM detailclass WHERE IdLop ='. $idClass;
+  $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+      $conn2 = open_database();
+      $sql2 = 'SELECT Email FROM account WHERE IdAccount ='.$row['IdAccount'];
+      $result2 = $conn2->query($sql2);
+      if ($result2->num_rows > 0) {
+        while ($row2 = $result2->fetch_assoc()) {
+          array_push($allEmail, $row2['Email']);
+        }
+      }
+    }
+  }
+  return $allEmail;
+}
+
+function sendMailNotify($idClass, $content){
+
+  $allEmail = getAllMail($idClass);
+  foreach($allEmail as $email){
+    // Load Composer's autoloader
+    require 'vendor/autoload.php';
+
+    // Instantiation and passing `true` enables exceptions
+    $mail = new PHPMailer();
+
+    try {
+        //Server settings
+        //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+        $mail->isSMTP();                                            // Send using SMTP
+        $mail->CharSet = 'UTF-8'; // font tiếng Việt
+        $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+        $mail->Username   = 'sieuquayskt4@gmail.com';  // email admin                   // SMTP username
+        $mail->Password   = '123456789Binh';     // Password hoặc App password nếu xác thực 2 bước
+        $mail->SMTPSecure = 'tls';    
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+        $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+
+        //Recipients
+        $mail->setFrom('sieuquayskt4@gmail.com', 'Admin Web');
+        $mail->addAddress($email, 'Người nhận');
+
         // Content
         $mail->isHTML(true);                                  // Set email format to HTML
         $mail->Subject = "Classroom";
         $mail->Body    = $content;
         $mail->AltBody = 'Lỗi không xác định';
-  
+
         $mail->send();
         
         return array('code' => 0, 'success' => 'Gửi mail thành công');
@@ -247,25 +305,5 @@ function sendMailNotify($idClass, $content){
       return array('code' => 1, 'error' => 'Không thể gửi mail');
     }
   }
-  
-  }
-  function getAllMail($idClass){
-    $allEmail = array();
-    $conn = open_database();
-    $sql = 'SELECT IdAccount FROM detailclass WHERE IdLop ='. $idClass;
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
-        $conn2 = open_database();
-        $sql2 = 'SELECT Email FROM account WHERE IdAccount ='.$row['IdAccount'];
-        $result2 = $conn2->query($sql2);
-        if ($result2->num_rows > 0) {
-          while ($row2 = $result2->fetch_assoc()) {
-            array_push($allEmail, $row2['Email']);
-          }
-        }
-      }
-    }
-    return $allEmail;
-    }  
+}
 ?>

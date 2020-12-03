@@ -30,7 +30,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/f25bf5c13c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stream.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -48,7 +48,6 @@ $quyen = $_SESSION["role"]; // quyền người dùng
 </head>
 
 <body>
-
 
 
     <?php
@@ -81,14 +80,14 @@ $quyen = $_SESSION["role"]; // quyền người dùng
     } else {
       $error = $content . $IdAccount . $IdLop . $target_file . $datecreate;
       $result = createPost($IdAccount, $IdLop, $content, $target_file, $datecreate);
-      if ($result['code'] == 0) {
+      if ($result1['code'] == 0) {
         // successful
         if ($quyen == "Admin" || $quyen == "Teacher"){
           sendMailNotify($IdLop, 'Bạn có 1 thông báo mới: '.$content);
         }
         header('Location: stream.php?IdLop=' . $IdLop);
         exit();
-      } else if ($result['code'] == 2) {
+      } else if ($result1['code'] == 2) {
         $error = "Không thể thêm lớp học";
       } else {
         $error = "Đã xảy ra lỗi vui lòng thử lại";
@@ -172,73 +171,59 @@ $quyen = $_SESSION["role"]; // quyền người dùng
       }
   }
 
-    ?>
-      <?php
-      $conn = open_database();
-      $sql = "SELECT * FROM class WHERE IdLop=$IdLop";
-      $result = $conn->query($sql);
-      $row1 = $result->fetch_assoc();
-      
-    ?>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <a class="btn-bars" href="classes.php">
-      <button class="w3-button w3-xlarge w3-circle w3-light mr-3">
-        <i class="fas fa-home"></i>
-      </button>
-    </a>
-    <a class="navbar-brand" href="#">HK1_2020_<?php echo $row1['TenLop'] ?> </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="stream.php?IdLop=<?php echo $IdLop ?>">Thông báo <span class="sr-only">(current)</span></a>
-        </li>
+  ?>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="btn-bars" href="classes.php">
+            <button class="w3-button w3-xlarge w3-circle w3-light mr-3">
+                <i class="fas fa-home"></i>
+            </button>
+        </a>
+        <a class="navbar-brand" href="#">HK1_2020_503073_Lap trinh web </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Stream <span class="sr-only">(current)</span></a>
+                </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="Assignment.php?IdLop=<?php echo $IdLop ?>">Bài tập</a>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Classwork</a>
+                </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="detailclass.php?IdLop=<?php echo $IdLop ?>">Mọi người</a>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <?php
-        if ($quyen == "Teacher"|| $quyen == "Admin"){
-          
-          echo '<a class="btn btn-outline-dark" data-toggle="modal" data-target="#AddStudentModal-del">Thêm sinh viên</a>';
-				
-        }
-      ?>
-      <a class="btn btn-outline-dark" href="logout.php">Đăng xuất</a>
-    </div>
-  </nav>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">People</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <a class="btn btn-outline-dark" href="logout.php">Đăng xuất</a>
+        </div>
+    </nav>
 
-
-    <div class="container cont">
-        <div class="bgd-img-top">
+    <div class="container">
+        <div class="bgd-img-top" style="background-image: url('images/brown.jpg');">
             <!-- Thông tin lớp học -->
             <?php
               $connClass = open_database();
-              $sqlClass = 'SELECT * FROM class WHERE IdLop ='. $IdLop;
+              $sqlClass = 'SELECT * FROM class WHERE IdLop ='. $_GET["IdLop"];
               $resultClass = $connClass->query($sqlClass);
               if ($resultClass->num_rows > 0) {
                 while ($rowClass = $resultClass->fetch_assoc()) {
-                  echo '<div class="class1">'.$rowClass['TenLop'].'</div>';
+                  echo '<div class="class">'.$rowClass['TenLop'].'</div>';
                   
-                  echo '<div class="class1-info">'.$rowClass['TenGv'].' - '.$rowClass['MoTa'].'</div>';
+                  echo '<div class="class-info">'.$rowClass['TenGv'].' - '.$rowClass['MoTa'].'</div>';
 
                   
-                  echo '<div class="text-white class-info">&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mã lớp: '.$rowClass['MaLop'].'</div>';
+                  echo '<div class="text-white">&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mã lớp: '.$rowClass['MaLop'].'</div>';
                 }
               }
             ?>
         </div>
 
-        <div class="account act bg-light text-muted">
+        <div class="account bg-light text-muted">
             <!--Tạo bài post-->
             <a href="" data-toggle="modal" data-target="#myModal">Chia sẻ với lớp học</a>
 
@@ -273,15 +258,15 @@ $quyen = $_SESSION["role"]; // quyền người dùng
 
     <?php
       $conn = open_database();
-      $sql = "SELECT * FROM post WHERE IdLop = $IdLop";
+      $sql = "SELECT * FROM post";
       $result = $conn->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
     ?>
-      <div class="account act">
+      <div class="account">
         <div class="row">
           <div class="col-1">
-              <img class="avt3" src="images/person.jpg" alt="">
+              <img class="avt" src="images/person.jpg" alt="">
           </div>
 
           <div class="col-9">
@@ -305,7 +290,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
           <div class="col-2 text-right">
             <?php
               if ($quyen == "Admin" || $quyen == "Teacher"){
-                echo '<a href="createpost.php?IdPost='.$row['IdPost'].'" class="badge badge-info">Sửa</a>';
+                echo '<a href="#" class="badge badge-info">Sửa</a>';
                 echo '<i onclick="updateDeletePostDialog('.$row['IdPost'].')" class="badge btn btn-danger" data-toggle="modal" data-target="#PostModal-del">Xóa</i>';
               }
             ?>
@@ -313,7 +298,7 @@ $quyen = $_SESSION["role"]; // quyền người dùng
         </div>
 
         <div><?php echo $row["NoiDung"] ?></div>
-        <div><a href="<?php echo $row["File"] ?> "download><?php echo $row["File"] ?></a></div>
+        <div><?php echo $row["File"] ?></div>
         <hr>
         
         <!-- Comment ở chổ này -->
@@ -375,7 +360,8 @@ $quyen = $_SESSION["role"]; // quyền người dùng
               </div>
             </form>
           </div>
-          
+          <!---------------------- Thêm sinh viên -->
+          <i class="btn btn-light" data-toggle="modal" data-target="#AddStudentModal-del">Thêm sinh viên</i>
         </div>
 
       </div> <!-- END class account-->
