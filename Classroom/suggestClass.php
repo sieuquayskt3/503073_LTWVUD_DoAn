@@ -37,7 +37,7 @@
         array_push($enClass, vn_to_str($c));
     }
 
-    // chưa biết sài sao :)
+    // chưa hiểu thì hỏi :)
 
     $keyword = $_POST['keyword'];
     $keyword = strtolower($keyword);

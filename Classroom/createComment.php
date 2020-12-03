@@ -18,6 +18,9 @@
     $result = createComment($IdAccount, $idPost, $comment, $datecreate);
     if ($result['code'] == 0) {
         // successful
+        if ($quyen == "Admin" || $quyen == "Teacher"){
+            sendMailNotify($idClass, 'Đã trả lời bình luận của bạn: '.$comment);
+        }
         header('Location: stream.php?IdLop=' . $idClass);
         exit();
     } else if ($result['code'] == 2) {

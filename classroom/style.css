@@ -1,0 +1,214 @@
+/*classwork*/
+img.avt {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    float: left;
+}
+p.title-classwork {
+    float: left;
+    margin-left: 20px;
+}
+
+h2 {
+    color: green;
+}
+
+div.icon {
+    float: left;
+    margin-left: 15px;
+    margin-top: 17px;
+}
+
+.butn {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    
+}
+
+#btn-menu {
+    width: 5%;
+    
+}
+/*joinclass*/
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+div.account {
+    border: 1px solid grey;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding-left: 40px;
+}
+
+img.avt1 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    
+}
+
+div.class-code {
+    border-radius: 10px;
+    border: 1px solid grey;
+    margin-top: 20px;
+    padding-left: 40px;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+div.acc {
+    max-width: 50%;
+}
+/*pepple*/
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+div.teacher {
+    border-bottom: 1px solid grey;
+    width: 80%;
+    padding: 10px 5px;
+    position: relative;
+    display: inline-block;
+}
+
+div.teacher:hover {
+    background-color: rgb(211, 206, 206);
+}
+img {
+    border-radius: 50%;
+    border: 1px solid white;
+    float: left;
+    width: 3%;
+    height: 25px;
+    margin-right: 10px;
+}
+
+div.teachers h2 {
+    color: green;
+    
+}
+
+div.teachers {
+    margin-top: 15px;
+    margin-left: 20%;
+    float: left;
+    
+}
+
+#number-student {
+    margin-right: 0px;
+}
+
+div.titles {
+    width: 80%;
+    border-bottom: 3px solid green;
+    margin-top: 20px;
+}
+/*TaoBT*/
+nav.nav {
+    border-bottom: 1px solid grey;
+}
+
+div.work {
+    margin-top: 20px;
+}
+
+div.select {
+    border-left: 1px solid grey;
+}
+/*classes*/
+	
+.card {
+    border-radius: 8px;
+    transition: 0.1s;
+}
+.card:hover {
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.1);
+}
+img.avt2 {
+    width: 75px; 
+    height: 75px; 
+    border-radius: 50%; 
+    position: relative;  
+    float: right; 
+    margin-top: -3.093rem;
+}
+.class {
+    color: white; 
+    font-size: 1.3rem;
+    font-weight: initial;
+    font-weight: 500;
+}
+.class-info {
+    color: white; 
+    font-size: 0.92rem;
+    font-weight: lighter;
+}
+.card-text {
+    color: white;
+    font-size: 0.92rem;
+    padding-top: 5px;
+}
+.bod {
+	background-image: url('images/bg.jpg');
+}
+.card-body {
+    border-radius: 8px 8px 0 0;
+}
+a.card-tiltle {
+    color: white;
+}
+.btn-bars {
+    padding-left: 50px;
+}
+.btn-plus {
+	padding-right: 50px;
+}
+/*stream*/
+.act {
+    border: 1px solid grey;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px 20px 20px 30px;
+}
+img.avt3 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+div.cont{
+    padding: 80px;
+}
+.act:hover {
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.1);
+}
+.bgd-img-top {
+	background-image: url('images/bg1.jpg');
+    height: 240px;
+    border-radius: 8px;
+}
+.class1 {
+    font-weight: 500;
+    font-size: 35px;
+    color: white;
+    padding-left: 35px;
+    padding-top: 20px;
+}
+.class1-info {
+    font-size: 22px;
+    color: white;
+    padding-left: 35px;
+}
+/*taolophoc*/
+div.lophoc{
+    margin-top: 60px;
+}
+

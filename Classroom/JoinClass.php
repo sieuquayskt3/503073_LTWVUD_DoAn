@@ -26,10 +26,16 @@ if (!isset($_SESSION["user"])) {
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/f25bf5c13c.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="style.css">
 
+ 
+  
 </head>
 
 <body>
+    
     <?php
         $error = '';
         $MaLop = '';
@@ -63,17 +69,21 @@ if (!isset($_SESSION["user"])) {
     ?>
     
     <nav class="navbar navbar-light bg-light">
-        <button class="btn"><i class="fa fa-bars"></i></button>
+    <a class="btn-bars" href="classes.php">
+      <button class="w3-button w3-xlarge w3-circle w3-light mr-3">
+        <i class="fas fa-home"></i>
+      </button>
+    </a>
         <h4>Tham gia lớp học</h4>
         <p></p>
     </nav>
-    <div class="container">
+    <div class="container acc">
         <form action="" method="post">
             <div class="account">
                 <div><p>Thông tin tài khoản</p></div>
                 <div class="row">
                     <div class="col-1">
-                        <img class="avt" src="image/avt1.jpg" alt="">
+                        <img class="avt1" src="image/avt1.jpg" alt="">
                     </div>
                     <div class="col-7 ml-4">
                         <p><?= $_SESSION['name'] ?></p>
@@ -87,13 +97,15 @@ if (!isset($_SESSION["user"])) {
                 <input type="text" id="MaLop" name="MaLop">
             </div>
             
-            <div class="form-group">
+            <div class="form-group text-right">
                 <?php
                     if (!empty($error)) {
                         echo "<div class='alert alert-danger'>$error</div>";
                     }
                 ?>
-                <button class="btn btn-success px-5">Xác nhận</button>
+                <a href="classes.php" class="btn btn-secondary">Hủy</a>
+                <button class="btn btn-success">Xác nhận</button>
+                
             </div>
         </form>
     </div>

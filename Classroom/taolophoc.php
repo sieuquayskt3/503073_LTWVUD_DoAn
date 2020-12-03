@@ -8,6 +8,7 @@ if (!isset($_SESSION["user"])) { // Yêu cầu đăng nhập
 require_once('connection.php');
 // lấy thông tin
 $IdAccount = $_SESSION["id"]; // id người dùng
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,31 +23,28 @@ $IdAccount = $_SESSION["id"]; // id người dùng
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://kit.fontawesome.com/f25bf5c13c.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="taolophoc.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
 </head>
 
 <body>
 
   <!--nav bar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <button class="btn"><i class="fa fa-bars"></i></button>
-    <a class="navbar-brand" href="#">HK1_2020_503073_Lap trinh web </a>
+    <a class="btn-bars" href="classes.php">
+      <button class="w3-button w3-xlarge w3-circle w3-light">
+        <i class="fas fa-home"></i>
+      </button>
+    </a>
+   
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Stream <span class="sr-only">(current)</span></a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#">Classwork</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#">People</a>
-        </li>
-      </ul>
+      
     </div>
     <div>
       <a class="btn btn-outline-dark" href="logout.php">Đăng xuất</a>
@@ -54,7 +52,7 @@ $IdAccount = $_SESSION["id"]; // id người dùng
   </nav>
   <!--end nav bar -->
   <hr>
-  <div class="container w-50 border border-secondary justify-content-center rounded lophoc bg-secondary">
+  <div class="container w-50 border border-secondary justify-content-center rounded lophoc bg-info">
     <h2 class="text-center font-weight-bold">Tạo lớp học</h2>
     <form action="" method="post" novalidate enctype="multipart/form-data">
       <?php
@@ -65,6 +63,7 @@ $IdAccount = $_SESSION["id"]; // id người dùng
       $row = $result->fetch_assoc();
       $name = $row["HoTen"]; // tên giáo viên
 
+      // Mặc định các nội dung là rỗng nêu chưa có id
       $error = "";
       $nameclass = ""; // ten lop hoc
       $room = ""; // phong hoc
@@ -72,14 +71,13 @@ $IdAccount = $_SESSION["id"]; // id người dùng
       $avt = ""; // anh dai dien
       $file = ""; // loai hinh anh jpg/png/...
 
-
       if (isset($_POST['nameclass']) && isset($_POST['room']) && isset($_POST['description']) && isset($_FILES['image'])) {
         $nameclass = $_POST['nameclass'];
         $room = $_POST['room'];
         $description = $_POST['description'];
 
         $file = $_FILES['image'];
-        $avt= $file['name'];
+        $avt = $file['name'];
         $linkimage = "images/" . $file['name'];
         if ($file['type'] == 'image/jpeg' || $file['type'] == 'image/jpg' || $file['type'] == 'image/png') {
           move_uploaded_file($file['tmp_name'], 'images/' . $avt);
@@ -92,10 +90,9 @@ $IdAccount = $_SESSION["id"]; // id người dùng
           $error = 'Vui lòng nhập thời gian học: Thứ - ca';
         } else if (empty($avt)) {
           $error = 'Vui lòng chọn ảnh đại diện';
-        } else if ($file['type'] != 'image/jpeg' && $file['type'] != 'image/jpg' && $file['type'] != 'image/png'){
-          $error ='Vui lòng chọn file ảnh';
-        }
-         else {
+        } else if ($file['type'] != 'image/jpeg' && $file['type'] != 'image/jpg' && $file['type'] != 'image/png') {
+          $error = 'Vui lòng chọn file ảnh';
+        } else {
           // register a new account
           $result1 = CU_class($IdAccount, $nameclass, $name, $room, $description, $linkimage);
           if ($result1['code'] == 0) {
@@ -109,33 +106,34 @@ $IdAccount = $_SESSION["id"]; // id người dùng
           }
         }
       }
-        // Hiển thị thông tin lớp học khi bấm nút sửa
-        if (isset($_GET["id"])) {
-          $id = $_GET["id"];
-          $sql = "SELECT * FROM class WHERE IdLop=$id";
-          $result = $conn->query($sql);
-          $row = $result->fetch_assoc();
-          $nameclass = $row["TenLop"];
-          $room = $row["Phong"];
-          $description = $row["MoTa"];
-          $avt = $row["AnhDaiDien"];
-        }
+      // Hiển thị thông tin lớp học khi bấm nút sửa
+      if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+        $sql = "SELECT * FROM class WHERE IdLop=$id";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $nameclass = $row["TenLop"];
+        $room = $row["Phong"];
+        $description = $row["MoTa"];
+        $avt = $row["AnhDaiDien"];
+      }
       ?>
-      <input type="hidden" name="id" value="<?php echo $id ?>"> <!--Ẩn id lớp học -->
+      <input type="hidden" name="id" value="<?php echo $id ?>">
+      <!--Ẩn id lớp học -->
       <div class="form-group font-weight-bold">
         <label for="nameclass">Tên lớp học:</label>
-        <input value="<?= $nameclass ?>" type="nameclass" class="form-control" id="nameclass" placeholder="Nhập tên lớp " name="nameclass">
+        <input value="<?= $nameclass ?>" type="nameclass" class="form-control" id="nameclass" name="nameclass">
       </div>
       <div class="form-group font-weight-bold">
         <label for="room">Phòng:</label>
-        <input value="<?= $room ?>" type="room" class="form-control" id="room" placeholder="Nhập phòng học" name="room">
+        <input value="<?= $room ?>" type="room" class="form-control" id="room" name="room">
       </div>
       <div class="form-group font-weight-bold">
-        <label for="description">Mô tả:</label>
-        <input value="<?= $description ?>" type="text" class="form-control" id="description" placeholder="Nhập mô tả" name="description">
+        <label for="description">Thời gian học</label>
+        <input value="<?= $description ?>" type="text" class="form-control" id="description" name="description">
       </div>
-      <div class="form-group">
-        <label for="image">Ảnh đại diện:</label>
+      <div class="form-group font-weight-bold">
+        <label for="image">Ảnh lớp:</label>
         <input type="file" class="form-control" placeholder="Chọn ảnh" id='image' name='image'>
       </div>
 
