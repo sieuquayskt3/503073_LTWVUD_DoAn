@@ -87,7 +87,7 @@ $IdLop = $_GET["IdLop"]; // id lớp
                         if (empty($content)) {
                             $error = "Vui lòng nhập nội dung thông báo";
                         } else {
-                            
+                            $error = $content . $IdAccount . $IdLop . $target_file . $datecreate;
                             $result = createPost($IdAccount, $IdLop, $content, $target_file, $datecreate);
                             if ($result1['code'] == 0) {
                                 // successful
@@ -103,8 +103,8 @@ $IdLop = $_GET["IdLop"]; // id lớp
 
 
                     // Hiển thị thông tin bài post khi bấm nút sửa
-                    if (isset($_GET["IdPost"])) {
-                        $id = $_GET["IdPost"];
+                    if (isset($_GET["id"])) {
+                        $id = $_GET["id"];
                         $sql = "SELECT * FROM post WHERE IdPost=$id";
                         $result = $conn->query($sql);
                         $row = $result->fetch_assoc();
@@ -124,8 +124,7 @@ $IdLop = $_GET["IdLop"]; // id lớp
                     </div>
                     <hr>
                     <div class="form-group text-right">
-                       
-                       <a href="stream.php" class="btn btn-success">Hủy</a>
+                        <button type="reset" class="btn btn-primary" data-dismiss="modal">Hủy</button>
                         <button type="submit" class="btn btn-primary">Đăng</button>
                     </div>
                 </form>
